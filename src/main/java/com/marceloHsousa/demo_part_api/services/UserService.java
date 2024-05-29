@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.print.ServiceUI;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,5 +36,10 @@ public class UserService {
         user.setPassword(newPassword);
 
         return user;
+    }
+
+    @Transactional(readOnly = true)
+    public List<User> findAll(){
+       return userRepository.findAll();
     }
 }
