@@ -19,6 +19,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> insert(@RequestBody User user){
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+
+        User obj = service.insert(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(obj);
     }
 }
