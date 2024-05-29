@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.print.ServiceUI;
 import java.util.Optional;
 
 @Service
@@ -26,5 +27,13 @@ public class UserService {
 
         Optional<User> obj = userRepository.findById(id);
         return obj.orElseThrow((()-> new ResourcesNotFoundException(id)));
+    }
+
+    @Transactional
+    public User updatePassword(Long id, String newPassword){
+        User user = findById(id);
+        user.setPassword(newPassword);
+
+        return user;
     }
 }
