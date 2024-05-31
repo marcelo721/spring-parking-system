@@ -3,6 +3,7 @@ package com.marceloHsousa.demo_part_api.web.controller;
 import com.marceloHsousa.demo_part_api.entities.User;
 import com.marceloHsousa.demo_part_api.services.UserService;
 import com.marceloHsousa.demo_part_api.web.dto.UserDto;
+import com.marceloHsousa.demo_part_api.web.dto.UserPasswordDto;
 import com.marceloHsousa.demo_part_api.web.dto.UserResponseDto;
 import com.marceloHsousa.demo_part_api.web.dto.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -34,10 +35,10 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<User> updatePassword(@PathVariable Long id, @RequestBody User user){
+    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody UserPasswordDto user){
 
-        User obj = service.updatePassword(id,user.getPassword());
-        return ResponseEntity.ok().body(obj);
+        User obj = service.updatePassword(id,user.getCurrentPassword(), user.getNewPassword(), user.getConfirmPassword());
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping

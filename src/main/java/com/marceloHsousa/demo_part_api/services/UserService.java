@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.print.ServiceUI;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,10 +30,19 @@ public class UserService {
     }
 
     @Transactional
-    public User updatePassword(Long id, String newPassword){
-        User user = findById(id);
-        user.setPassword(newPassword);
+    public User updatePassword(Long id, String CurrentPassword, String newPassword, String confirmPassword){
 
+        if (!newPassword.equals(confirmPassword)){
+            throw new RuntimeException("new password and password confirmation are different");
+        }
+
+        User user = findById(id);
+
+        if (!user.getPassword().equals(CurrentPassword)){
+
+            throw new RuntimeException("YOUR CURRENT PASSWORD IS WRONG");
+        }
+        user.setPassword(newPassword);
         return user;
     }
 
