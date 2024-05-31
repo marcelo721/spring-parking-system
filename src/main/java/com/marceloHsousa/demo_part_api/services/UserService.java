@@ -5,6 +5,7 @@ import com.marceloHsousa.demo_part_api.entities.User;
 import com.marceloHsousa.demo_part_api.exceptions.UsernameUniqueViolationException;
 import com.marceloHsousa.demo_part_api.repositories.UserRepository;
 import com.marceloHsousa.demo_part_api.services.exceptions.EntityNotFoundException;
+import com.marceloHsousa.demo_part_api.services.exceptions.PasswordInvalidException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -43,13 +44,13 @@ public class UserService {
     public User updatePassword(Long id, String CurrentPassword, String newPassword, String confirmPassword){
 
         if (!newPassword.equals(confirmPassword)){
-            throw new RuntimeException("new password and password confirmation are different");
+            throw new PasswordInvalidException("new password and password confirmation are different");
         }
 
         User user = findById(id);
 
         if (!user.getPassword().equals(CurrentPassword)){
-            throw new RuntimeException("YOUR CURRENT PASSWORD IS WRONG");
+            throw new PasswordInvalidException("YOUR CURRENT PASSWORD IS WRONG");
         }
         user.setPassword(newPassword);
         return user;

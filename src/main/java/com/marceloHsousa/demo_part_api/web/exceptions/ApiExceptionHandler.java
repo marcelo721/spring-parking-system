@@ -2,6 +2,7 @@ package com.marceloHsousa.demo_part_api.web.exceptions;
 
 import com.marceloHsousa.demo_part_api.exceptions.UsernameUniqueViolationException;
 import com.marceloHsousa.demo_part_api.services.exceptions.EntityNotFoundException;
+import com.marceloHsousa.demo_part_api.services.exceptions.PasswordInvalidException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,16 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, ex.getMessage()));
+
+    }
+
+    @ExceptionHandler(PasswordInvalidException.class)
+    public ResponseEntity<ErrorMessage> passwordInvalidException(RuntimeException ex, HttpServletRequest request){
+
+        log.error("Api Error -", ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, ex.getMessage()));
 
     }
 
