@@ -6,6 +6,7 @@ import com.marceloHsousa.demo_part_api.web.dto.UserDto;
 import com.marceloHsousa.demo_part_api.web.dto.UserPasswordDto;
 import com.marceloHsousa.demo_part_api.web.dto.UserResponseDto;
 import com.marceloHsousa.demo_part_api.web.dto.mapper.UserMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class UserController {
     private final UserService service;
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> insert(@RequestBody UserDto userDto){
+    public ResponseEntity<UserResponseDto> insert(@Valid @RequestBody UserDto userDto){
 
         User obj = service.insert(UserMapper.toUser(userDto));
         return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toDto(obj));
