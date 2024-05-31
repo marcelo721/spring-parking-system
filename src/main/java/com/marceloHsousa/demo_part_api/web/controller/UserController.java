@@ -2,6 +2,9 @@ package com.marceloHsousa.demo_part_api.web.controller;
 
 import com.marceloHsousa.demo_part_api.entities.User;
 import com.marceloHsousa.demo_part_api.services.UserService;
+import com.marceloHsousa.demo_part_api.web.dto.UserDto;
+import com.marceloHsousa.demo_part_api.web.dto.UserResponseDto;
+import com.marceloHsousa.demo_part_api.web.dto.mapper.UserMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,10 +21,10 @@ public class UserController {
     private final UserService service;
 
     @PostMapping
-    public ResponseEntity<User> insert(@RequestBody User user){
+    public ResponseEntity<UserResponseDto> insert(@RequestBody UserDto userDto){
 
-        User obj = service.insert(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(obj);
+        User obj = service.insert(UserMapper.toUser(userDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toDto(obj));
     }
 
     @GetMapping("/{id}")
