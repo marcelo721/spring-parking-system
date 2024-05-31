@@ -5,7 +5,6 @@ import com.marceloHsousa.demo_part_api.services.UserService;
 import com.marceloHsousa.demo_part_api.web.dto.UserDto;
 import com.marceloHsousa.demo_part_api.web.dto.UserResponseDto;
 import com.marceloHsousa.demo_part_api.web.dto.mapper.UserMapper;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
