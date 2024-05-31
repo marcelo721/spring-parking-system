@@ -31,7 +31,7 @@ public class UserController {
     public ResponseEntity<UserResponseDto> findById(@PathVariable Long id){
 
         User obj = service.findById(id);
-        return ResponseEntity.ok().body(UserMapper.toDto(obj));
+        return ResponseEntity.ok(UserMapper.toDto(obj));
     }
 
     @PatchMapping("/{id}")
@@ -42,9 +42,9 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll(){
+    public ResponseEntity<List<UserResponseDto>> findAll(){
 
         List<User> users = service.findAll();
-        return ResponseEntity.ok().body(users);
+        return ResponseEntity.ok(UserMapper.toListDto(users));
     }
 }

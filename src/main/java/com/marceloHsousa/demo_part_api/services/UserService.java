@@ -39,7 +39,6 @@ public class UserService {
         User user = findById(id);
 
         if (!user.getPassword().equals(CurrentPassword)){
-
             throw new RuntimeException("YOUR CURRENT PASSWORD IS WRONG");
         }
         user.setPassword(newPassword);
