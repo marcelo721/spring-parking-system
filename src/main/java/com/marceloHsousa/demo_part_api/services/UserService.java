@@ -2,7 +2,7 @@ package com.marceloHsousa.demo_part_api.services;
 
 
 import com.marceloHsousa.demo_part_api.entities.User;
-import com.marceloHsousa.demo_part_api.exceptions.UsernameUniqueViolationException;
+import com.marceloHsousa.demo_part_api.services.exceptions.UsernameUniqueViolationException;
 import com.marceloHsousa.demo_part_api.repositories.UserRepository;
 import com.marceloHsousa.demo_part_api.services.exceptions.EntityNotFoundException;
 import com.marceloHsousa.demo_part_api.services.exceptions.PasswordInvalidException;

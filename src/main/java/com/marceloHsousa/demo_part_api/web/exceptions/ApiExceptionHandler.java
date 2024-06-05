@@ -1,6 +1,6 @@
 package com.marceloHsousa.demo_part_api.web.exceptions;
 
-import com.marceloHsousa.demo_part_api.exceptions.UsernameUniqueViolationException;
+import com.marceloHsousa.demo_part_api.services.exceptions.UsernameUniqueViolationException;
 import com.marceloHsousa.demo_part_api.services.exceptions.EntityNotFoundException;
 import com.marceloHsousa.demo_part_api.services.exceptions.PasswordInvalidException;
 import jakarta.servlet.http.HttpServletRequest;
