@@ -6,6 +6,12 @@ import com.marceloHsousa.demo_part_api.web.dto.UserDto;
 import com.marceloHsousa.demo_part_api.web.dto.UserPasswordDto;
 import com.marceloHsousa.demo_part_api.web.dto.UserResponseDto;
 import com.marceloHsousa.demo_part_api.web.dto.mapper.UserMapper;
+import com.marceloHsousa.demo_part_api.web.exceptions.ErrorMessage;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,7 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Tag(name = "users", description = "contains all operations related to resources for registering, editing and reading a user")
 @RestController
 @RequestMapping("api/v1/users")
 @RequiredArgsConstructor
@@ -21,6 +27,23 @@ public class UserController {
 
     private final UserService service;
 
+    @Operation(
+            summary = "create a new user",
+            description = "feature create a new user",
+            responses = {
+                    @ApiResponse(responseCode = "201",
+                            description = "resource created successfully",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDto.class))),
+
+                    @ApiResponse(responseCode = "409",
+                            description = "username and email already registered in the system",
+                            content =  @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
+
+                    @ApiResponse(responseCode = "422",
+                            description = "resource not processed due to invalid input data",
+                            content =  @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class)))
+            }
+    )
     @PostMapping
     public ResponseEntity<UserResponseDto> insert(@Valid @RequestBody UserDto userDto){
 
