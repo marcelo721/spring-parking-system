@@ -87,6 +87,10 @@ public class UserController {
 
                     @ApiResponse(responseCode = "400",
                             description = "password is wrong",
+                            content =  @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
+
+                    @ApiResponse(responseCode = "422",
+                            description = "Invalid data",
                             content =  @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class)))
             }
     )

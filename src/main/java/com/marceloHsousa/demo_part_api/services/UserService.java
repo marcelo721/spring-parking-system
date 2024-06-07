@@ -27,7 +27,6 @@ public class UserService {
             return userRepository.save(user);
 
         }catch (DataIntegrityViolationException e){
-
             throw new UsernameUniqueViolationException(String.format("Username {%s} already registered ", user.getUsername()));
         }
 
