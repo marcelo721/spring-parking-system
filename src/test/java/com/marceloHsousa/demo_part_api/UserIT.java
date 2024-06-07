@@ -5,7 +5,6 @@ import com.marceloHsousa.demo_part_api.web.dto.UserDto;
 import com.marceloHsousa.demo_part_api.web.dto.UserPasswordDto;
 import com.marceloHsousa.demo_part_api.web.dto.UserResponseDto;
 import com.marceloHsousa.demo_part_api.web.exceptions.ErrorMessage;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
