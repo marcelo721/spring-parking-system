@@ -9,6 +9,7 @@ import com.marceloHsousa.demo_part_api.services.exceptions.EntityNotFoundExcepti
 import com.marceloHsousa.demo_part_api.services.exceptions.PasswordInvalidException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public User findByUsername(String username) {
@@ -31,6 +33,7 @@ public class UserService {
     public User insert(User user){
 
         try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
 
         }catch (DataIntegrityViolationException e){
@@ -55,10 +58,10 @@ public class UserService {
 
         User user = findById(id);
 
-        if (!user.getPassword().equals(CurrentPassword)){
+        if (!passwordEncoder.matches(CurrentPassword, user.getPassword())){
             throw new PasswordInvalidException("YOUR CURRENT PASSWORD IS WRONG");
         }
-        user.setPassword(newPassword);
+        user.setPassword(passwordEncoder.encode(newPassword));
         return user;
     }
 
