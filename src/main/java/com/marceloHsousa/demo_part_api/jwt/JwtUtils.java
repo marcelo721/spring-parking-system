@@ -32,7 +32,7 @@ public class JwtUtils {
     private JwtUtils(){
     }
 
-    private static Key generateKey(){
+    private static javax.crypto.SecretKey generateKey(){
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -50,11 +50,12 @@ public class JwtUtils {
         Date limit = toExpireDate(issueAt);
 
         String token = Jwts.builder()
-                .setHeaderParam("typ", "JWT")
-                .setSubject(username)
-                .setIssuedAt(issueAt)
-                .setExpiration(limit)
-                .signWith(generateKey(), SignatureAlgorithm.HS256)
+                .header().add("typ", "JWT")
+                .and()
+                .subject(username)
+                .issuedAt(issueAt)
+                .expiration(limit)
+                .signWith(generateKey())
                 .claim("role", role)
                 .compact();
 
@@ -66,12 +67,13 @@ public class JwtUtils {
 
         try {
 
-            return Jwts.parserBuilder()
-                    .setSigningKey(generateKey()).build()
-                    .parseClaimsJws(refactorToken(token)).getBody();
+            return Jwts.parser()
+                    .verifyWith(generateKey())
+                    .build()
+                    .parseSignedClaims(refactorToken(token)).getPayload();
 
         }catch (JwtException e){
-            log.error(String.format("Invalid token", e.getMessage()));
+            log.error(String.format("Invalid token %s", e.getMessage()));
         }
         return null;
     }
@@ -92,9 +94,11 @@ public class JwtUtils {
 
         try {
 
-             Jwts.parserBuilder()
-                    .setSigningKey(generateKey()).build()
-                    .parseClaimsJws(refactorToken(token));
+             Jwts.parser()
+                     .verifyWith(generateKey())
+                     .build()
+                     .parseSignedClaims(refactorToken(token));
+
              return true;
 
         }catch (JwtException e){
