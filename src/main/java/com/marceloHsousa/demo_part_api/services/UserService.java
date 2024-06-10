@@ -2,6 +2,7 @@ package com.marceloHsousa.demo_part_api.services;
 
 
 import com.marceloHsousa.demo_part_api.entities.User;
+import com.marceloHsousa.demo_part_api.entities.enums.Role;
 import com.marceloHsousa.demo_part_api.services.exceptions.UsernameUniqueViolationException;
 import com.marceloHsousa.demo_part_api.repositories.UserRepository;
 import com.marceloHsousa.demo_part_api.services.exceptions.EntityNotFoundException;
@@ -19,6 +20,12 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    @Transactional(readOnly = true)
+    public User findByUsername(String username) {
+
+        return userRepository.findByUsername(username).orElseThrow((()-> new EntityNotFoundException("Entity not found")));
+    }
 
     @Transactional
     public User insert(User user){
@@ -58,5 +65,10 @@ public class UserService {
     @Transactional(readOnly = true)
     public List<User> findAll(){
        return userRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Role findRoleByUsername(String username) {
+       return userRepository.findRoleByUsername(username);
     }
 }
