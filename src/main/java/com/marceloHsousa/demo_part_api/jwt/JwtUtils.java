@@ -3,12 +3,10 @@ package com.marceloHsousa.demo_part_api.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -27,6 +25,7 @@ public class JwtUtils {
     public static final long  EXPIRE_HOURS = 0;
 
     public static final long  EXPIRE_MINUTES = 2;
+
 
 
     private JwtUtils(){
@@ -90,7 +89,7 @@ public class JwtUtils {
         return getClaimsFromToken(token).getSubject();
     }
 
-    public boolean isTokenValid(String token){
+    public static boolean isTokenValid(String token){
 
         try {
 

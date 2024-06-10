@@ -1,7 +1,6 @@
 package com.marceloHsousa.demo_part_api.web.controller;
 
 import com.marceloHsousa.demo_part_api.jwt.JwtToken;
-import com.marceloHsousa.demo_part_api.jwt.JwtUserDetails;
 import com.marceloHsousa.demo_part_api.jwt.JwtUserDetailsService;
 import com.marceloHsousa.demo_part_api.web.dto.UserLonginDto;
 import com.marceloHsousa.demo_part_api.web.exceptions.ErrorMessage;
