@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -56,7 +57,8 @@ public class UserController {
 
     @Operation(
             summary = "find a user by id",
-            description = "resource to find a user by id",
+            security = @SecurityRequirement(name = "security"),
+            description = "resource to find a user by id, this request requires a token, Access restricted to ADMIN/CLIENT",
             responses = {
                     @ApiResponse(responseCode = "200",
                             description = "user found successfully",
@@ -64,6 +66,9 @@ public class UserController {
 
                     @ApiResponse(responseCode = "404",
                             description = "User not found",
+                            content =  @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
+                    @ApiResponse(responseCode = "403",
+                            description = "This user does not have permission to access this resource",
                             content =  @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class)))
             }
     )
@@ -77,7 +82,8 @@ public class UserController {
 
     @Operation(
             summary = "update password",
-            description = "resource to update password",
+            security = @SecurityRequirement(name = "security"),
+            description = "resource to update password, this request requires a token, Access restricted to ADMIN/CLIENT",
             responses = {
                     @ApiResponse(responseCode = "204",
                             description = "password updated successfully",
@@ -93,6 +99,10 @@ public class UserController {
 
                     @ApiResponse(responseCode = "422",
                             description = "Invalid data",
+                            content =  @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
+
+                    @ApiResponse(responseCode = "403",
+                            description = "This user does not have permission to access this resource",
                             content =  @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class)))
             }
     )
@@ -106,12 +116,17 @@ public class UserController {
 
     @Operation(
             summary = "find all users",
-            description = "resource to find all users",
+            security = @SecurityRequirement(name = "security"),
+            description = "resource to find all users, this request requires a token, Access restricted to CLIENT",
             responses = {
                     @ApiResponse(responseCode = "200",
                             description = "List of all registered users",
                             content = @Content(mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = UserResponseDto.class))))
+                                    array = @ArraySchema(schema = @Schema(implementation = UserResponseDto.class)))),
+
+                    @ApiResponse(responseCode = "403",
+                            description = "This user does not have permission to access this resource",
+                            content =  @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class)))
             }
     )
     @GetMapping
