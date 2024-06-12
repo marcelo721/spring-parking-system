@@ -1,6 +1,7 @@
 package com.marceloHsousa.demo_part_api.config;
 
 
+import com.marceloHsousa.demo_part_api.jwt.JwtAuthenticationEntryPoint;
 import com.marceloHsousa.demo_part_api.jwt.JwtAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +37,9 @@ public class SpringSecurityConfig {
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).addFilterBefore(
                         jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class
-                ).build();
+                ).exceptionHandling(ex ->
+                        ex.authenticationEntryPoint(new JwtAuthenticationEntryPoint()))
+                .build();
     }
 
     @Bean

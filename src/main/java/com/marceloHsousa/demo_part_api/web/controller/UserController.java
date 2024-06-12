@@ -31,7 +31,7 @@ public class UserController {
 
     @Operation(
             summary = "create a new user",
-            description = "feature create a new user",
+            description = "Resource create a new user",
             responses = {
                     @ApiResponse(responseCode = "201",
                             description = "resource created successfully",
