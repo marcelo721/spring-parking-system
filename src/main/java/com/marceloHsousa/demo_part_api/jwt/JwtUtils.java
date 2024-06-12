@@ -14,9 +14,9 @@ import java.util.Date;
 @Slf4j
 public class JwtUtils {
 
-    public static final String JWT_BEARER = "bearer";
+    public static final String JWT_BEARER = "Bearer ";
 
-    public static final String JWT_AUTHORIZATION = "authorization";
+    public static final String JWT_AUTHORIZATION = "Authorization";
 
     public static final String SECRET_KEY = "0123456789-0123456789-0123456789";
 
@@ -93,12 +93,12 @@ public class JwtUtils {
 
         try {
 
-             Jwts.parser()
-                     .verifyWith(generateKey())
-                     .build()
-                     .parseSignedClaims(refactorToken(token));
+            Jwts.parser()
+                    .verifyWith(generateKey())
+                    .build()
+                    .parseSignedClaims(refactorToken(token));
 
-             return true;
+            return true;
 
         }catch (JwtException e){
             log.error(String.format("Invalid token", e.getMessage()));
