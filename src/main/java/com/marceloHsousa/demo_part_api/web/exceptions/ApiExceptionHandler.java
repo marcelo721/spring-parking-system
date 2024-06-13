@@ -1,5 +1,6 @@
 package com.marceloHsousa.demo_part_api.web.exceptions;
 
+import com.marceloHsousa.demo_part_api.services.exceptions.CpfUniqueViolationException;
 import com.marceloHsousa.demo_part_api.services.exceptions.UsernameUniqueViolationException;
 import com.marceloHsousa.demo_part_api.services.exceptions.EntityNotFoundException;
 import com.marceloHsousa.demo_part_api.services.exceptions.PasswordInvalidException;
@@ -42,7 +43,7 @@ public class ApiExceptionHandler {
     }
 
 
-    @ExceptionHandler(UsernameUniqueViolationException.class)
+    @ExceptionHandler({UsernameUniqueViolationException.class, CpfUniqueViolationException.class})
     public ResponseEntity<ErrorMessage> usernameUniqueViolationException(RuntimeException ex, HttpServletRequest request){
 
         log.error("Api Error -", ex);
