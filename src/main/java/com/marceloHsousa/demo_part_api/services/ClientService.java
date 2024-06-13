@@ -1,12 +1,16 @@
 package com.marceloHsousa.demo_part_api.services;
 
 import com.marceloHsousa.demo_part_api.entities.Client;
+import com.marceloHsousa.demo_part_api.entities.User;
 import com.marceloHsousa.demo_part_api.repositories.ClientRepository;
 import com.marceloHsousa.demo_part_api.services.exceptions.CpfUniqueViolationException;
+import com.marceloHsousa.demo_part_api.services.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,5 +28,11 @@ public class ClientService {
 
             throw  new CpfUniqueViolationException(String.format("The CPF '%s' is already registered", client.getCpf()));
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Client findClientById(Long id){
+        Optional<Client> obj = clientRepository.findById(id);
+        return obj.orElseThrow((()-> new EntityNotFoundException("Client not Found")));
     }
 }
