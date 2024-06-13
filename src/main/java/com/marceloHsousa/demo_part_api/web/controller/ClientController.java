@@ -47,8 +47,6 @@ public class ClientController {
                             description = "This feature is not allowed for ADMIN user type",
                             content =  @Content(mediaType = "application/json;charset=UTF-8",schema = @Schema(implementation = ErrorMessage.class)))
             }
-
-
     )
     @PostMapping
     @PreAuthorize("hasRole('CLIENT')")
@@ -61,9 +59,24 @@ public class ClientController {
         return ResponseEntity.status(201).body(ClientMapper.toDto(client));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ClientResponseDto> findClientById(@PathVariable Long id){
+    @Operation(summary = "Find Client", description = "feature to find client by id , This request requires a token, restricted access to Role='ADMIN'",
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "resource found successfully",
+                            content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ClientResponseDto.class))),
 
+                    @ApiResponse(responseCode = "404",
+                            description = "Client Not Found",
+                            content =  @Content(mediaType ="application/json;charset=UTF-8",schema = @Schema(implementation = ErrorMessage.class))),
+
+                    @ApiResponse(responseCode = "403",
+                            description = "This feature is not allowed for CLIENT user type",
+                            content =  @Content(mediaType = "application/json;charset=UTF-8",schema = @Schema(implementation = ErrorMessage.class)))
+            }
+    )
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ClientResponseDto> findClientById(@PathVariable Long id){
         Client client = service.findClientById(id);
         return ResponseEntity.ok(ClientMapper.toDto(client));
     }
