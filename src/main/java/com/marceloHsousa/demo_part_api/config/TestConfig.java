@@ -3,7 +3,7 @@ package com.marceloHsousa.demo_part_api.config;
 
 import com.marceloHsousa.demo_part_api.repositories.UserRepository;
 import com.marceloHsousa.demo_part_api.web.controller.UserController;
-import com.marceloHsousa.demo_part_api.web.dto.UserDto;
+import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;

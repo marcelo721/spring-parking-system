@@ -1,4 +1,5 @@
-package com.marceloHsousa.demo_part_api.web.dto;
+package com.marceloHsousa.demo_part_api.web.dto.userDTO;
+
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,7 +11,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserLonginDto {
+
+public class UserDto {
 
     @NotBlank
     @Email(message = "email format is invalid", regexp = "^[a-z0-9.+-]+@[a-z0-9.-]+\\.[a-z]{2,}$")

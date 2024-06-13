@@ -1,9 +1,9 @@
 package com.marceloHsousa.demo_part_api;
 
 
-import com.marceloHsousa.demo_part_api.web.dto.UserDto;
-import com.marceloHsousa.demo_part_api.web.dto.UserPasswordDto;
-import com.marceloHsousa.demo_part_api.web.dto.UserResponseDto;
+import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserDto;
+import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserPasswordDto;
+import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserResponseDto;
 import com.marceloHsousa.demo_part_api.web.exceptions.ErrorMessage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

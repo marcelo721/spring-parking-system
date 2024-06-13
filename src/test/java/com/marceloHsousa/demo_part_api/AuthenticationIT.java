@@ -1,7 +1,7 @@
 package com.marceloHsousa.demo_part_api;
 
 import com.marceloHsousa.demo_part_api.jwt.JwtToken;
-import com.marceloHsousa.demo_part_api.web.dto.UserLonginDto;
+import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserLonginDto;
 import com.marceloHsousa.demo_part_api.web.exceptions.ErrorMessage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

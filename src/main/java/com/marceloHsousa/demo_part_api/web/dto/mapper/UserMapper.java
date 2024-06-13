@@ -1,8 +1,8 @@
 package com.marceloHsousa.demo_part_api.web.dto.mapper;
 
 import com.marceloHsousa.demo_part_api.entities.User;
-import com.marceloHsousa.demo_part_api.web.dto.UserDto;
-import com.marceloHsousa.demo_part_api.web.dto.UserResponseDto;
+import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserDto;
+import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserResponseDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 

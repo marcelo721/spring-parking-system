@@ -1,4 +1,4 @@
-package com.marceloHsousa.demo_part_api.web.dto;
+package com.marceloHsousa.demo_part_api.web.dto.userDTO;
 
 import lombok.*;
 

@@ -2,8 +2,8 @@ package com.marceloHsousa.demo_part_api.web.controller;
 
 import com.marceloHsousa.demo_part_api.jwt.JwtToken;
 import com.marceloHsousa.demo_part_api.jwt.JwtUserDetailsService;
-import com.marceloHsousa.demo_part_api.web.dto.UserLonginDto;
-import com.marceloHsousa.demo_part_api.web.dto.UserResponseDto;
+import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserLonginDto;
+import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserResponseDto;
 import com.marceloHsousa.demo_part_api.web.exceptions.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
