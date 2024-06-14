@@ -7,9 +7,12 @@ import com.marceloHsousa.demo_part_api.services.exceptions.CpfUniqueViolationExc
 import com.marceloHsousa.demo_part_api.services.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,5 +37,10 @@ public class ClientService {
     public Client findClientById(Long id){
         Optional<Client> obj = clientRepository.findById(id);
         return obj.orElseThrow((()-> new EntityNotFoundException("Client not Found")));
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Client> findAllClients(Pageable pageable){
+        return clientRepository.findAll(pageable);
     }
 }

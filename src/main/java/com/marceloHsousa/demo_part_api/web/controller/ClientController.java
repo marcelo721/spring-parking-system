@@ -15,10 +15,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "Clients", description = "this class contains all the resources to deal with Clients, This request requires a token")
 @RestController
@@ -79,5 +83,14 @@ public class ClientController {
     public ResponseEntity<ClientResponseDto> findClientById(@PathVariable Long id){
         Client client = service.findClientById(id);
         return ResponseEntity.ok(ClientMapper.toDto(client));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping
+    public ResponseEntity<Page<Client>> findAllClients(Pageable pageable){
+        Page<Client> clients = service.findAllClients(pageable);
+
+        return ResponseEntity.ok(clients);
+
     }
 }
