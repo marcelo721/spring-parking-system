@@ -1,7 +1,10 @@
 package com.marceloHsousa.demo_part_api.web.controller;
 
+import com.marceloHsousa.demo_part_api.entities.Client;
 import com.marceloHsousa.demo_part_api.entities.User;
+import com.marceloHsousa.demo_part_api.jwt.JwtUserDetails;
 import com.marceloHsousa.demo_part_api.services.UserService;
+import com.marceloHsousa.demo_part_api.web.dto.clientDTO.ClientResponseDto;
 import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserDto;
 import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserPasswordDto;
 import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserResponseDto;
@@ -19,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -136,4 +140,5 @@ public class UserController {
         List<User> users = service.findAll();
         return ResponseEntity.ok(UserMapper.toListDto(users));
     }
+
 }

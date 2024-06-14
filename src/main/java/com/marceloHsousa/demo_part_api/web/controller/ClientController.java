@@ -129,4 +129,26 @@ public class ClientController {
 
         return ResponseEntity.ok(PageableMappper.toDto(clients));
     }
+
+
+    @Operation(summary = "Find Client authenticated", description = "feature to find client by id , This request requires a token, restricted access to Role='CLIENT'",
+            security = @SecurityRequirement(name = "security"),
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "resource found successfully",
+                            content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ClientResponseDto.class))),
+
+                    @ApiResponse(responseCode = "403",
+                            description = "This feature is not allowed for ADMIN user type",
+                            content =  @Content(mediaType = "application/json;charset=UTF-8",schema = @Schema(implementation = ErrorMessage.class)))
+            }
+    )
+    @GetMapping("/details")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<ClientResponseDto> getDetails(@AuthenticationPrincipal JwtUserDetails userDetails){
+
+        Client client = service.findUserByid(userDetails.getId());
+
+        return ResponseEntity.ok(ClientMapper.toDto(client));
+    }
 }
