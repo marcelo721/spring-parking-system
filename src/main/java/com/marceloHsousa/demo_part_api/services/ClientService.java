@@ -3,6 +3,7 @@ package com.marceloHsousa.demo_part_api.services;
 import com.marceloHsousa.demo_part_api.entities.Client;
 import com.marceloHsousa.demo_part_api.entities.User;
 import com.marceloHsousa.demo_part_api.repositories.ClientRepository;
+import com.marceloHsousa.demo_part_api.repositories.projection.ClientProjection;
 import com.marceloHsousa.demo_part_api.services.exceptions.CpfUniqueViolationException;
 import com.marceloHsousa.demo_part_api.services.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,7 @@ public class ClientService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Client> findAllClients(Pageable pageable){
-        return clientRepository.findAll(pageable);
+    public Page<ClientProjection> findAllClients(Pageable pageable){
+        return clientRepository.findAllClients(pageable);
     }
 }

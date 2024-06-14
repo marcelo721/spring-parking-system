@@ -2,11 +2,14 @@ package com.marceloHsousa.demo_part_api.web.controller;
 
 import com.marceloHsousa.demo_part_api.entities.Client;
 import com.marceloHsousa.demo_part_api.jwt.JwtUserDetails;
+import com.marceloHsousa.demo_part_api.repositories.projection.ClientProjection;
 import com.marceloHsousa.demo_part_api.services.ClientService;
 import com.marceloHsousa.demo_part_api.services.UserService;
+import com.marceloHsousa.demo_part_api.web.dto.PageableDto;
 import com.marceloHsousa.demo_part_api.web.dto.clientDTO.ClientCreateDto;
 import com.marceloHsousa.demo_part_api.web.dto.clientDTO.ClientResponseDto;
 import com.marceloHsousa.demo_part_api.web.dto.mapper.ClientMapper;
+import com.marceloHsousa.demo_part_api.web.dto.mapper.PageableMappper;
 import com.marceloHsousa.demo_part_api.web.exceptions.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,8 +24,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Tag(name = "Clients", description = "this class contains all the resources to deal with Clients, This request requires a token")
 @RestController
@@ -87,10 +88,9 @@ public class ClientController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
-    public ResponseEntity<Page<Client>> findAllClients(Pageable pageable){
-        Page<Client> clients = service.findAllClients(pageable);
+    public ResponseEntity<PageableDto> findAllClients(Pageable pageable){
+        Page<ClientProjection> clients = service.findAllClients(pageable);
 
-        return ResponseEntity.ok(clients);
-
+        return ResponseEntity.ok(PageableMappper.toDto(clients));
     }
 }
