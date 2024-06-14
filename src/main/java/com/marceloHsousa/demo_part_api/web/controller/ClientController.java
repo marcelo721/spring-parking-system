@@ -12,14 +12,18 @@ import com.marceloHsousa.demo_part_api.web.dto.mapper.ClientMapper;
 import com.marceloHsousa.demo_part_api.web.dto.mapper.PageableMappper;
 import com.marceloHsousa.demo_part_api.web.exceptions.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -35,6 +39,7 @@ public class ClientController {
     private final UserService userService;
 
     @Operation(summary = "create new Client", description = "feature to insert a new client, This request requires a token",
+            security = @SecurityRequirement(name = "security"),
             responses = {
                     @ApiResponse(responseCode = "201",
                             description = "resource created successfully",
@@ -65,6 +70,7 @@ public class ClientController {
     }
 
     @Operation(summary = "Find Client", description = "feature to find client by id , This request requires a token, restricted access to Role='ADMIN'",
+            security = @SecurityRequirement(name = "security"),
             responses = {
                     @ApiResponse(responseCode = "200",
                             description = "resource found successfully",
@@ -86,9 +92,39 @@ public class ClientController {
         return ResponseEntity.ok(ClientMapper.toDto(client));
     }
 
+
+
+    @Operation( summary = "Find all Clients",
+            description = "resource to find all Clients",
+            security = @SecurityRequirement(name = "security"),
+
+            parameters = {
+                    @Parameter(in = ParameterIn.QUERY, name = "page",
+                            content = @Content(schema = @Schema(type = "integer", defaultValue = "0")),
+                            description = "represents the returned page"),
+
+                    @Parameter(in = ParameterIn.QUERY, name = "size",
+                            content = @Content(schema = @Schema(type = "integer", defaultValue = "20")),
+                            description = "represents the number of pages"),
+
+                    @Parameter(in = ParameterIn.QUERY, name = "String", hidden = true,
+                            content = @Content(schema = @Schema(type = "integer", defaultValue = "id,asc")),
+                            description = "represents the ordering of results"),
+             },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "resource completed successfully",
+                            content = @Content(mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = ErrorMessage.class))
+                    ),
+                    @ApiResponse(responseCode = "403", description = "This feature is not allowed for CLIENT type users",
+                            content = @Content(mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = ErrorMessage.class))
+                    )
+            }
+    )
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
-    public ResponseEntity<PageableDto> findAllClients(Pageable pageable){
+    public ResponseEntity<PageableDto> findAllClients(@Parameter(hidden = true) @PageableDefault(size = 5, sort = {"name"}) Pageable pageable){
         Page<ClientProjection> clients = service.findAllClients(pageable);
 
         return ResponseEntity.ok(PageableMappper.toDto(clients));
