@@ -202,12 +202,46 @@ public class ClientIT {
     }
 
     @Test
-    public void findAllClient_ByClientUser_returnStatus200() {
+    public void findAllClient_ByClientUser_returnStatus403() {
 
         ErrorMessage responseBody = testClient
                 .get()
                 .uri("/api/v1/clients")
                 .headers(JwtAuthentication.getHeaderAuthorization(testClient, "julio@email.com", "211111"))
+                .exchange()
+                .expectStatus().isForbidden()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(403);
+    }
+
+    @Test
+    public void findClient_withLoginData_returnStatus200() {
+
+        ClientResponseDto responseBody = testClient
+                .get()
+                .uri("/api/v1/clients/details")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "julio@email.com", "211111"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(ClientResponseDto.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getName()).isEqualTo("Marcelo henrique de sousa");
+
+
+    }
+
+    @Test
+    public void findClient_usingAdminData_returnStatus403() {
+
+        ErrorMessage responseBody = testClient
+                .get()
+                .uri("/api/v1/clients/details")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "admin@email.com", "211111"))
                 .exchange()
                 .expectStatus().isForbidden()
                 .expectBody(ErrorMessage.class)

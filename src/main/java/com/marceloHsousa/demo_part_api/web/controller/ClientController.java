@@ -148,7 +148,6 @@ public class ClientController {
     public ResponseEntity<ClientResponseDto> getDetails(@AuthenticationPrincipal JwtUserDetails userDetails){
 
         Client client = service.findUserByid(userDetails.getId());
-
         return ResponseEntity.ok(ClientMapper.toDto(client));
     }
 }
