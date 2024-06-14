@@ -2,6 +2,7 @@ package com.marceloHsousa.demo_part_api.client;
 
 
 import com.marceloHsousa.demo_part_api.users.JwtAuthentication;
+import com.marceloHsousa.demo_part_api.web.dto.PageableDto;
 import com.marceloHsousa.demo_part_api.web.dto.clientDTO.ClientCreateDto;
 import com.marceloHsousa.demo_part_api.web.dto.clientDTO.ClientResponseDto;
 import com.marceloHsousa.demo_part_api.web.exceptions.ErrorMessage;
@@ -158,6 +159,55 @@ public class ClientIT {
                 .get()
                 .uri("/api/v1/clients/1")
                 .headers(JwtAuthentication.getHeaderAuthorization(testClient, "joao@email.com", "123456"))
+                .exchange()
+                .expectStatus().isForbidden()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(403);
+    }
+
+    @Test
+    public void findAllClient_ByAdminUser_returnStatus200(){
+
+        PageableDto responseBody = testClient
+                .get()
+                .uri("/api/v1/clients")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "admin@email.com", "211111"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(PageableDto.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getContent().size()).isEqualTo(4);
+        org.assertj.core.api.Assertions.assertThat(responseBody.getNumber()).isEqualTo(0);
+        org.assertj.core.api.Assertions.assertThat(responseBody.getTotalPages()).isEqualTo(1);
+
+         responseBody = testClient
+                .get()
+                .uri("/api/v1/clients?size=1&page=1")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "admin@email.com", "211111"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(PageableDto.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getContent().size()).isEqualTo(1);
+        org.assertj.core.api.Assertions.assertThat(responseBody.getNumber()).isEqualTo(1);
+        org.assertj.core.api.Assertions.assertThat(responseBody.getTotalPages()).isEqualTo(4);
+
+    }
+
+    @Test
+    public void findAllClient_ByClientUser_returnStatus200() {
+
+        ErrorMessage responseBody = testClient
+                .get()
+                .uri("/api/v1/clients")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "julio@email.com", "211111"))
                 .exchange()
                 .expectStatus().isForbidden()
                 .expectBody(ErrorMessage.class)
