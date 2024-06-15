@@ -1,14 +1,11 @@
 package com.marceloHsousa.demo_part_api.web.controller;
 
-import com.marceloHsousa.demo_part_api.entities.Client;
 import com.marceloHsousa.demo_part_api.entities.User;
-import com.marceloHsousa.demo_part_api.jwt.JwtUserDetails;
 import com.marceloHsousa.demo_part_api.services.UserService;
-import com.marceloHsousa.demo_part_api.web.dto.clientDTO.ClientResponseDto;
 import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserDto;
 import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserPasswordDto;
 import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserResponseDto;
-import com.marceloHsousa.demo_part_api.web.dto.mapper.UserMapper;
+import com.marceloHsousa.demo_part_api.web.dto.parkingSpaceDto.mapper.UserMapper;
 import com.marceloHsousa.demo_part_api.web.exceptions.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -22,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

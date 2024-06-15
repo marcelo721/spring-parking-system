@@ -1,9 +1,6 @@
 package com.marceloHsousa.demo_part_api.web.exceptions;
 
-import com.marceloHsousa.demo_part_api.services.exceptions.CpfUniqueViolationException;
-import com.marceloHsousa.demo_part_api.services.exceptions.UsernameUniqueViolationException;
-import com.marceloHsousa.demo_part_api.services.exceptions.EntityNotFoundException;
-import com.marceloHsousa.demo_part_api.services.exceptions.PasswordInvalidException;
+import com.marceloHsousa.demo_part_api.services.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -43,7 +40,7 @@ public class ApiExceptionHandler {
     }
 
 
-    @ExceptionHandler({UsernameUniqueViolationException.class, CpfUniqueViolationException.class})
+    @ExceptionHandler({UsernameUniqueViolationException.class, CpfUniqueViolationException.class, CodeUniqueViolationException.class})
     public ResponseEntity<ErrorMessage> usernameUniqueViolationException(RuntimeException ex, HttpServletRequest request){
 
         log.error("Api Error -", ex);

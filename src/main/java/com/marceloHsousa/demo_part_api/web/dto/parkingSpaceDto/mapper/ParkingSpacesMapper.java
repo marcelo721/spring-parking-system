@@ -1,4 +1,4 @@
-package com.marceloHsousa.demo_part_api.web.dto.mapper;
+package com.marceloHsousa.demo_part_api.web.dto.parkingSpaceDto.mapper;
 
 import com.marceloHsousa.demo_part_api.entities.ParkingSpaces;
 import com.marceloHsousa.demo_part_api.web.dto.parkingSpaceDto.ParkingSpacesDto;
