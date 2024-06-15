@@ -1,7 +1,7 @@
-package com.marceloHsousa.demo_part_api.client;
+package com.marceloHsousa.demo_part_api.clientTest;
 
 
-import com.marceloHsousa.demo_part_api.users.JwtAuthentication;
+import com.marceloHsousa.demo_part_api.usersTest.JwtAuthentication;
 import com.marceloHsousa.demo_part_api.web.dto.PageableDto;
 import com.marceloHsousa.demo_part_api.web.dto.clientDTO.ClientCreateDto;
 import com.marceloHsousa.demo_part_api.web.dto.clientDTO.ClientResponseDto;

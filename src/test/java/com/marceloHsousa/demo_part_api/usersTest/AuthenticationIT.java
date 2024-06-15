@@ -1,4 +1,4 @@
-package com.marceloHsousa.demo_part_api.users;
+package com.marceloHsousa.demo_part_api.usersTest;
 
 import com.marceloHsousa.demo_part_api.jwt.JwtToken;
 import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserLonginDto;

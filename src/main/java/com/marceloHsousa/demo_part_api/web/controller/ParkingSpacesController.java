@@ -34,6 +34,7 @@ public class ParkingSpacesController {
 
 
     @Operation(summary = "create new Parking Spaces", description = "feature to insert a new Parking Spaces, This request requires a token",
+            security = @SecurityRequirement(name = "security"),
             responses = {
                     @ApiResponse(responseCode = "201",
                             description = "resource created successfully",
@@ -46,6 +47,10 @@ public class ParkingSpacesController {
                     @ApiResponse(responseCode = "422",
                             description = "resource not processed due to invalid input data",
                             content =  @Content(mediaType = "application/json;charset=UTF-8",schema = @Schema(implementation = ErrorMessage.class))),
+
+                    @ApiResponse(responseCode = "403",
+                            description = "This feature is not allowed for CLIENT user type",
+                            content =  @Content(mediaType ="application/json;charset=UTF-8",schema = @Schema(implementation = ErrorMessage.class))),
             }
     )
     @PostMapping
@@ -63,6 +68,7 @@ public class ParkingSpacesController {
     }
 
     @Operation(summary = "Find Parking Spaces", description = "feature to find Parking Spaces by code, This request requires a token, restricted access to Role='ADMIN'",
+            security = @SecurityRequirement(name = "security"),
             responses = {
                     @ApiResponse(responseCode = "200",
                             description = "resource found successfully",
@@ -72,6 +78,9 @@ public class ParkingSpacesController {
                             description = "resource Not Found",
                             content =  @Content(mediaType ="application/json;charset=UTF-8",schema = @Schema(implementation = ErrorMessage.class))),
 
+                    @ApiResponse(responseCode = "403",
+                            description = "This feature is not allowed for CLIENT user type",
+                            content =  @Content(mediaType ="application/json;charset=UTF-8",schema = @Schema(implementation = ErrorMessage.class))),
             }
     )
     @GetMapping("/{code}")
