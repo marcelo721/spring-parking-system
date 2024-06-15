@@ -19,6 +19,6 @@ public class ParkingSpacesDto {
     private String code;
 
     @NotBlank
-    @Pattern(regexp = "FREE | OCCUPED")
+    @Pattern(regexp = "FREE|OCCUPED")
     private String Status;
 }
