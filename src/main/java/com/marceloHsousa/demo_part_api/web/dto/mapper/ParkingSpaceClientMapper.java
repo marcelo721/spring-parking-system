@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ParkingSpaceClientMapper {
 
-    private static ParkingSpaceClient toParkingSpaceClient(ParkingCreateDto dto){
+    public static ParkingSpaceClient toParkingSpaceClient(ParkingCreateDto dto){
         return new ModelMapper().map(dto, ParkingSpaceClient.class);
     }
 
