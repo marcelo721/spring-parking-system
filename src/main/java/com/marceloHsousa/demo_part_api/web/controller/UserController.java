@@ -5,7 +5,7 @@ import com.marceloHsousa.demo_part_api.services.UserService;
 import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserDto;
 import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserPasswordDto;
 import com.marceloHsousa.demo_part_api.web.dto.userDTO.UserResponseDto;
-import com.marceloHsousa.demo_part_api.web.dto.parkingSpaceDto.mapper.UserMapper;
+import com.marceloHsousa.demo_part_api.web.dto.mapper.UserMapper;
 import com.marceloHsousa.demo_part_api.web.exceptions.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
