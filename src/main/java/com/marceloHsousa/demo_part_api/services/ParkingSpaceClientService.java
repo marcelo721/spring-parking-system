@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ParkingSpaceClientService {
 
-    ParkingSpaceClientRepository repository;
+    private final ParkingSpaceClientRepository repository;
 
     @Transactional
     public ParkingSpaceClient insert (ParkingSpaceClient spaceClient){
