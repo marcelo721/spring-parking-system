@@ -1,6 +1,7 @@
 package com.marceloHsousa.demo_part_api.services;
 
 import com.marceloHsousa.demo_part_api.entities.ParkingSpaces;
+import com.marceloHsousa.demo_part_api.entities.enums.ParkingSpaceStatus;
 import com.marceloHsousa.demo_part_api.repositories.ParkingSpacesRepository;
 import com.marceloHsousa.demo_part_api.services.exceptions.CodeUniqueViolationException;
 import com.marceloHsousa.demo_part_api.services.exceptions.EntityNotFoundException;
@@ -29,6 +30,15 @@ public class ParkingSpacesService {
     public ParkingSpaces getByCode(String code){
         return repository.findByCode(code).orElseThrow(
                 () -> new EntityNotFoundException("ParkingSpaces not found")
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public ParkingSpaces findFreeParkingSpot() {
+
+        ParkingSpaceStatus status = ParkingSpaceStatus.FREE;
+        return repository.findFirstByStatus(status).orElseThrow(
+                () -> new EntityNotFoundException("No free parking spots were found")
         );
     }
 }
