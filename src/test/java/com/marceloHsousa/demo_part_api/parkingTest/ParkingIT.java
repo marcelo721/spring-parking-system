@@ -2,6 +2,7 @@ package com.marceloHsousa.demo_part_api.parkingTest;
 
 
 import com.marceloHsousa.demo_part_api.usersTest.JwtAuthentication;
+import com.marceloHsousa.demo_part_api.web.dto.PageableDto;
 import com.marceloHsousa.demo_part_api.web.dto.parkingDto.ParkingCreateDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -255,4 +256,31 @@ public class ParkingIT {
                 ;
     }
 
+    @Test
+    public void findParking_byClientCpf_returnStatus200(){
+        PageableDto responseBody =testClient
+                .get()
+                .uri("/api/v1/parkings/cpf/{cpf}?size=1&page=0", "19904672024")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "admin@email.com", "211111"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(PageableDto.class)
+                .returnResult().getResponseBody();
+
+    }
+
+    @Test
+    public void findParking_withClientRole_returnStatus403(){
+        testClient
+                .get()
+                .uri("/api/v1/parkings/cpf/{cpf}", "19904672024")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "julio@email.com", "211111"))
+                .exchange()
+                .expectStatus().isForbidden()
+                .expectBody()
+                .jsonPath("status").isEqualTo("403")
+                .jsonPath("path").isEqualTo("/api/v1/parkings/cpf/19904672024")
+                .jsonPath("method").isEqualTo("GET")
+        ;
+    }
 }
