@@ -2,10 +2,9 @@ package com.marceloHsousa.demo_part_api.web.controller;
 
 import com.marceloHsousa.demo_part_api.entities.ParkingSpaceClient;
 import com.marceloHsousa.demo_part_api.services.ParkingService;
-import com.marceloHsousa.demo_part_api.web.dto.clientDTO.ClientResponseDto;
 import com.marceloHsousa.demo_part_api.web.dto.mapper.ParkingSpaceClientMapper;
-import com.marceloHsousa.demo_part_api.web.dto.parking.ParkingCreateDto;
-import com.marceloHsousa.demo_part_api.web.dto.parking.ParkingResponseDto;
+import com.marceloHsousa.demo_part_api.web.dto.parkingDto.ParkingCreateDto;
+import com.marceloHsousa.demo_part_api.web.dto.parkingDto.ParkingResponseDto;
 import com.marceloHsousa.demo_part_api.web.exceptions.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;

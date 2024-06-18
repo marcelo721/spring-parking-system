@@ -1,12 +1,11 @@
 package com.marceloHsousa.demo_part_api.web.dto.mapper;
 
 import com.marceloHsousa.demo_part_api.entities.ParkingSpaceClient;
-import com.marceloHsousa.demo_part_api.web.dto.parking.ParkingCreateDto;
-import com.marceloHsousa.demo_part_api.web.dto.parking.ParkingResponseDto;
+import com.marceloHsousa.demo_part_api.web.dto.parkingDto.ParkingCreateDto;
+import com.marceloHsousa.demo_part_api.web.dto.parkingDto.ParkingResponseDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.ui.Model;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ParkingSpaceClientMapper {
