@@ -21,7 +21,7 @@ public class ParkingSpaceClientService {
     @Transactional(readOnly = true)
     public ParkingSpaceClient findByReceipt(String receipt) {
 
-        return repository.findByReceiptAndCheckOutIsNull(receipt).orElseThrow(
+        return repository.findByReceiptAndCheckOutDateIsNull(receipt).orElseThrow(
                 () -> new EntityNotFoundException("receipt  Not Found or the checkOut has already been carried out")
         );
     }
