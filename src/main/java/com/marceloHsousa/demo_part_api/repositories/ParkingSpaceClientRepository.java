@@ -1,6 +1,9 @@
 package com.marceloHsousa.demo_part_api.repositories;
 
 import com.marceloHsousa.demo_part_api.entities.ParkingSpaceClient;
+import com.marceloHsousa.demo_part_api.repositories.projection.ParkingSpacesClientProjection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +14,6 @@ public interface ParkingSpaceClientRepository extends JpaRepository<ParkingSpace
     Optional<ParkingSpaceClient> findByReceiptAndCheckOutDateIsNull(String receipt);
 
     long countByClientCpfAndCheckOutDateIsNotNull(String cpf);
+
+    Page<ParkingSpacesClientProjection> findAllByClientCpf(String cpf, Pageable pageable);
 }

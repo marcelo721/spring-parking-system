@@ -26,13 +26,19 @@ public class ParkingUtils {
         double total = 0.0;
 
         if (minutes <= 15) {
-            total =  FIRST_15_MINUTES;
+            total = FIRST_15_MINUTES;
         } else if (minutes <= 60) {
-            total =  FIRST_60_MINUTES;
+            total = FIRST_60_MINUTES;
         } else {
-            int additional = (int)Math.floor(minutes/15.0);
-            total = FIRST_60_MINUTES * additional * (FIRST_60_MINUTES  + ADDITIONAL_15_MINUTES * additional);
+            long addicionalMinutes = minutes - 60;
+            Double totalParts = ((double) addicionalMinutes / 15);
+            if (totalParts > totalParts.intValue()) {
+                total += FIRST_60_MINUTES + (FIRST_15_MINUTES * (totalParts.intValue() + 1));
+            } else { // 4.0
+                total += FIRST_60_MINUTES + (ADDITIONAL_15_MINUTES * totalParts.intValue());
+            }
         }
+
 
         return new BigDecimal(total).setScale(2, RoundingMode.HALF_EVEN);
     }

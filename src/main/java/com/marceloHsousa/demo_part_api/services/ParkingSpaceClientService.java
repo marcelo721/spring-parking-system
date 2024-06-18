@@ -2,8 +2,11 @@ package com.marceloHsousa.demo_part_api.services;
 
 import com.marceloHsousa.demo_part_api.entities.ParkingSpaceClient;
 import com.marceloHsousa.demo_part_api.repositories.ParkingSpaceClientRepository;
+import com.marceloHsousa.demo_part_api.repositories.projection.ParkingSpacesClientProjection;
 import com.marceloHsousa.demo_part_api.services.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +32,12 @@ public class ParkingSpaceClientService {
     @Transactional(readOnly = true)
     public long getNumberOfTimes(String cpf) {
 
-        return repository.countByClientCpfAndcheckOutDateIsNotNull(cpf);
+        return repository.countByClientCpfAndCheckOutDateIsNotNull(cpf);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ParkingSpacesClientProjection> findAllByClientCpf(String cpf, Pageable pageable) {
+
+        return repository.findAllByClientCpf(cpf, pageable);
     }
 }

@@ -49,7 +49,7 @@ public class ParkingSpaceClient {
     @Column(name = "check_out_date", nullable = true)
     private LocalDateTime checkOutDate;
 
-    @Column(name = "value", columnDefinition = "decimal(7,2)")
+    @Column(name = "value")
     private BigDecimal value;
 
     @Column(name = "discount", columnDefinition = "decimal(7,2)")
