@@ -283,4 +283,32 @@ public class ParkingIT {
                 .jsonPath("method").isEqualTo("GET")
         ;
     }
+
+    @Test
+    public void findParking_byClientUserId_returnStatus200(){
+        PageableDto responseBody =testClient
+                .get()
+                .uri("/api/v1/parkings", "27392165054")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "marcelo@email.com", "123456"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(PageableDto.class)
+                .returnResult().getResponseBody();
+
+    }
+
+    @Test
+    public void findParking_withAdminRole_returnStatus403(){
+        testClient
+                .get()
+                .uri("/api/v1/parkings", "19904672024")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "admin@email.com", "211111"))
+                .exchange()
+                .expectStatus().isForbidden()
+                .expectBody()
+                .jsonPath("status").isEqualTo("403")
+                .jsonPath("path").isEqualTo("/api/v1/parkings")
+                .jsonPath("method").isEqualTo("GET")
+        ;
+    }
 }

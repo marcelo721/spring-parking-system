@@ -1,6 +1,7 @@
 package com.marceloHsousa.demo_part_api.web.controller;
 
 import com.marceloHsousa.demo_part_api.entities.ParkingSpaceClient;
+import com.marceloHsousa.demo_part_api.jwt.JwtUserDetails;
 import com.marceloHsousa.demo_part_api.repositories.projection.ParkingSpacesClientProjection;
 import com.marceloHsousa.demo_part_api.services.ParkingService;
 import com.marceloHsousa.demo_part_api.services.ParkingSpaceClientService;
@@ -12,7 +13,6 @@ import com.marceloHsousa.demo_part_api.web.dto.parkingDto.ParkingResponseDto;
 import com.marceloHsousa.demo_part_api.web.exceptions.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,6 +31,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -149,7 +150,7 @@ public class ParkingController {
                     @ApiResponse(responseCode = "200", description = "Successful located",
                             content = @Content(mediaType = " application/json;charset=UTF-8",
                                     schema = @Schema(implementation = PageableDto.class))),
-                    @ApiResponse(responseCode = "403", description = "Appeal I do not allow the client profile",
+                    @ApiResponse(responseCode = "403", description = "Appeal I do not allow the CLIENT profile",
                             content = @Content(mediaType = " application/json;charset=UTF-8",
                                     schema = @Schema(implementation = ErrorMessage.class)))
             })
@@ -164,6 +165,40 @@ public class ParkingController {
         PageableDto dto = PageableMappper.toDto(projection);
 
         return ResponseEntity.ok(dto);
+    }
 
+    @Operation(summary = "Find customer parking records by Id", description = "Locate the" +
+            "Customer parking records by Id. Request requires use of a Bearer token.",
+            security = @SecurityRequirement(name = "security"),
+            parameters = {
+
+                    @Parameter(in = QUERY, name = "page", description = "Represents the returned page",
+                            content = @Content(schema = @Schema(type = "integer", defaultValue = "0"))
+                    ),
+                    @Parameter(in = QUERY, name = "size", description ="Represents the total of elements per page" ,
+                            content = @Content(schema = @Schema(type = "integer", defaultValue = "5"))
+                    ),
+                    @Parameter(in = QUERY, name = "sort", description = " Data -dated, ASC 'standard field.",
+                            array = @ArraySchema(schema = @Schema(type = "string", defaultValue = "checkOutDate,asc")),
+                            hidden = true
+                    )
+            },
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Successful located",
+                            content = @Content(mediaType = " application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = PageableDto.class))),
+                    @ApiResponse(responseCode = "403", description = "Appeal I do not allow the ADMIN profile",
+                            content = @Content(mediaType = " application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = ErrorMessage.class)))
+            })
+    @PreAuthorize("hasRole('CLIENT')")
+    @GetMapping
+    public ResponseEntity<PageableDto> getAllParkingClient(@AuthenticationPrincipal JwtUserDetails user,
+                                                           @PageableDefault(size = 5, sort = "checkInDate",
+                                                                  direction = Sort.Direction.ASC)Pageable pageable){
+        Page<ParkingSpacesClientProjection> projection = spaceClientService.findAllByUserId( user.getId(), pageable);
+        PageableDto dto = PageableMappper.toDto(projection);
+
+        return ResponseEntity.ok(dto);
     }
 }
