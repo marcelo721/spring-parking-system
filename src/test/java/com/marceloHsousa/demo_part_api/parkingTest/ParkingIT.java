@@ -149,5 +149,4 @@ public class ParkingIT {
                 .jsonPath("method").isEqualTo("POST");
     }
 
-
 }

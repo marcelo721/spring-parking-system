@@ -2,6 +2,7 @@ package com.marceloHsousa.demo_part_api.services;
 
 import com.marceloHsousa.demo_part_api.entities.ParkingSpaceClient;
 import com.marceloHsousa.demo_part_api.repositories.ParkingSpaceClientRepository;
+import com.marceloHsousa.demo_part_api.services.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,5 +16,13 @@ public class ParkingSpaceClientService {
     @Transactional
     public ParkingSpaceClient insert (ParkingSpaceClient spaceClient){
         return repository.save(spaceClient);
+    }
+
+    @Transactional(readOnly = true)
+    public ParkingSpaceClient findByReceipt(String receipt) {
+
+        return repository.findByReceiptAndCheckOutIsNull(receipt).orElseThrow(
+                () -> new EntityNotFoundException("receipt  Not Found or the checkOut has already been carried out")
+        );
     }
 }

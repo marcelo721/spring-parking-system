@@ -2,6 +2,7 @@ package com.marceloHsousa.demo_part_api.web.controller;
 
 import com.marceloHsousa.demo_part_api.entities.ParkingSpaceClient;
 import com.marceloHsousa.demo_part_api.services.ParkingService;
+import com.marceloHsousa.demo_part_api.services.ParkingSpaceClientService;
 import com.marceloHsousa.demo_part_api.web.dto.mapper.ParkingSpaceClientMapper;
 import com.marceloHsousa.demo_part_api.web.dto.parkingDto.ParkingCreateDto;
 import com.marceloHsousa.demo_part_api.web.dto.parkingDto.ParkingResponseDto;
@@ -18,10 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -34,6 +32,7 @@ import java.net.URI;
 public class ParkingController {
 
     private final ParkingService service;
+    private final ParkingSpaceClientService spaceClientService;
 
     @Operation(summary = "check-in operation", description = "resource for entering a vehicle into the parking lot",
             security = @SecurityRequirement(name = "security"),
@@ -73,5 +72,14 @@ public class ParkingController {
                 .toUri();
 
         return ResponseEntity.created(location).body(responseDto);
+    }
+
+    @GetMapping("/check-in/{receipt}")
+    @PreAuthorize("hasAnyRole('ADMIN','CLIENT')")
+    public ResponseEntity<ParkingResponseDto> getByreceipt(@PathVariable String receipt){
+        ParkingSpaceClient spaceClient = spaceClientService.findByReceipt(receipt);
+
+        ParkingResponseDto dto = ParkingSpaceClientMapper.toDto(spaceClient);
+        return ResponseEntity.ok(dto);
     }
 }
