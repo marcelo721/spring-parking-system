@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Service
@@ -33,5 +34,24 @@ public class ParkingService {
         spaceClient.setReceipt(ParkingUtils.generateReceipt());
 
         return parkingSpaceClientService.insert(spaceClient);
+    }
+
+    @Transactional
+    public ParkingSpaceClient checkOut(String receipt) {
+        ParkingSpaceClient parkingSpaceClient = parkingSpaceClientService.findByReceipt(receipt);
+
+        LocalDateTime checkOutDate = LocalDateTime.now();
+
+        BigDecimal value = ParkingUtils.calculateValue(parkingSpaceClient.getCheckInDate(), checkOutDate);
+        parkingSpaceClient.setValue(value);
+
+        long numberOfTimes = parkingSpaceClientService.getNumberOfTimes(parkingSpaceClient.getClient().getCpf());
+        BigDecimal discount =  ParkingUtils.calculateDiscount(value, numberOfTimes);
+
+        parkingSpaceClient.setDiscount(discount);
+        parkingSpaceClient.setCheckOutDate(checkOutDate);
+        parkingSpaceClient.getParkingSpaces().setStatus(ParkingSpaceStatus.FREE);
+
+        return parkingSpaceClientService.insert(parkingSpaceClient);
     }
 }

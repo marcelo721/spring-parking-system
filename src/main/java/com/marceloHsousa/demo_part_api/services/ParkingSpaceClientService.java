@@ -25,4 +25,10 @@ public class ParkingSpaceClientService {
                 () -> new EntityNotFoundException("receipt  Not Found or the checkOut has already been carried out")
         );
     }
+
+    @Transactional(readOnly = true)
+    public long getNumberOfTimes(String cpf) {
+
+        return repository.countByClientCpfAndcheckOutDateIsNotNull(cpf);
+    }
 }
