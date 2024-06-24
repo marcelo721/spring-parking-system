@@ -16,9 +16,4 @@ This is a sample project developed with Spring Boot for managing a parking lot. 
 - mySQL database(for testing)
 - Maven
 
-## API Documentation
-
-For detailed API documentation, please refer to the [API Documentation]().
-
-
 
